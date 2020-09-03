@@ -5,12 +5,15 @@ const socket = io()
 const $messageForm = document.querySelector('#message-form')
 const $messageFormInput = $messageForm.querySelector('input')
 const $messageFormButton = $messageForm.querySelector('button')
-const $sendLocation = document.querySelector('#btn-location')
+const $sendLocation = document.querySelector('#send-location')
 const $messages = document.querySelector('#messages')
 
 // Templates
 const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationTemplate = document.querySelector('#location-template').innerHTML
+
+// Options
+const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true })
 
 // Server
 
@@ -79,3 +82,5 @@ socket.on('message', (message) => {
     })
    
 })
+
+socket.emit('join', { username, room })

@@ -19,12 +19,18 @@ app.use(express.static(publicDirectoryPath))
 io.on('connection', (socket) => {
     console.log('New WebSocket connection')
 
-    // Sending message to the new user
-    
-    socket.emit('message', generateMessage('Welcome user'))
+    // Creating unique rooms
+    socket.on('join', ({ username, room }) => {
+        socket.join(room)
 
-    // Sending message to everyone
-    socket.broadcast.emit('message', generateMessage('A new user has joined!'))
+         // Sending message to the new user
+        socket.emit('message', generateMessage('Welcome!'))
+
+        // Sending message to everyone
+        socket.broadcast.to(room).emit('message', generateMessage(`${username} has joined!`))
+
+        // Sending emits/message to anybody in the room and not the outside
+    })
 
     socket.on('sendMessage', (message, callback) => {
         const filter = new Filter()
@@ -33,7 +39,7 @@ io.on('connection', (socket) => {
         }
 
         // Sending users message to other conected users
-        io.emit('message', generateMessage(message))
+        io.to('node.js').emit('message', generateMessage(message))
         callback()
     })
 
@@ -47,6 +53,8 @@ io.on('connection', (socket) => {
         io.emit('message', generateMessage('A user has left!'))
     })
 })
+
+
 
 server.listen(port, () => {
     console.log(`Server is up on port ${port}!`)
