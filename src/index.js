@@ -38,7 +38,7 @@ io.on('connection', (socket) => {
             return callback('Profanity is not allowed!')
         }
 
-        // Sending users message to other conected users
+        // Sending users message to other connected users
         io.to('node.js').emit('message', generateMessage(message))
         callback()
     })
