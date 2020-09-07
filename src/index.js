@@ -39,9 +39,12 @@ io.on('connection', (socket) => {
             room: user.room,
             users: getUsersInRoom(user.room)
         })
-        callback()
-        // Sending emits/message to anybody in the room and not the outside
 
+        // io.to(room).emit('activeRooms', {
+        //     room: activeRooms(room)
+        // })
+        
+        callback()
     })
 
     socket.on('sendMessage', (message, callback) => {

@@ -18,6 +18,12 @@
                         <input type="text" name="room" placeholder="Room" required>
                         <button>Join</button>
                     </form>
+                    <button>Active rooms</button>
+                    <ul class="rooms">
+                        {{#rooms}}
+                        <li>{{room}}</li>
+                        {{/rooms}}
+                    </ul>
             </div>
         </div>
 
