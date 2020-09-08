@@ -5,6 +5,7 @@ const socketio = require('socket.io')
 const Filter = require('bad-words')
 const { generateMessage, generateLocationMessage } = require('./utils/messages');
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./utils/users');
+const { addRoom, getRoom, removeRoom } = require('./utils/rooms');
 
 const app = express()
 const server = http.createServer(app)
@@ -22,7 +23,7 @@ io.on('connection', (socket) => {
 
     // Creating unique rooms
     socket.on('join', ({ username, room }, callback) => {
-        const { error, user } = addUser({ id: socket.id, username, room })
+        const { error, user } = addUser({ id: socket.id, username, room });
         if (error) {
            return callback(error)
         }
@@ -40,10 +41,6 @@ io.on('connection', (socket) => {
             users: getUsersInRoom(user.room)
         })
 
-        // io.to(room).emit('activeRooms', {
-        //     room: activeRooms(room)
-        // })
-        
         callback()
     })
 
@@ -81,6 +78,7 @@ io.on('connection', (socket) => {
         })
       }
     })
+
 })
 
 server.listen(port, () => {
