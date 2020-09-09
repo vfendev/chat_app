@@ -38,7 +38,8 @@ const removeRoom = (room) => {
 }
 
 // Get room
-const getRoom = (room) => {
+const getRoom = ({room}) => {
+    room = room.trim().toLowerCase()
     return rooms.find((newRoom) => newRoom.room === room)
 }
 

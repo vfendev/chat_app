@@ -13,10 +13,10 @@ const $messages = document.querySelector('#messages')
 const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationTemplate = document.querySelector('#location-template').innerHTML
 const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
+// const activeRoomsDropdown = document.querySelector('#active-dropdown').innerHTML
 
 
 // Options
-
 const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true })
 const autoscroll = () => {
 
@@ -68,6 +68,7 @@ socket.on('message', (message) => {
 })
 
     socket.on('roomData', ({ room, users }) => {
+        // console.log(room, users);
         const html = Mustache.render(sidebarTemplate, {
             room,
             users
@@ -75,6 +76,15 @@ socket.on('message', (message) => {
         document.querySelector('#sidebar').innerHTML = html
     })
 
+    socket.on('addingRoom', ({ room, rooms }) => {
+        console.log(room, rooms)
+        // const html = Mustache.render(activeRoomsDropdown, {
+        //     room,
+        //     rooms
+        // })
+        // document.querySelector('#active_rooms').innerHTML = html
+    })
+  
     // Client
 
     $messageForm.addEventListener('submit', (e) => {
@@ -121,6 +131,17 @@ socket.on('message', (message) => {
     })
    
 })
+
+
+socket.emit('activeRooms', {room}, (error) => {
+    if (error) {
+        console.log({
+           error: 'Something went wrong! Try again!'
+        });
+    }
+})
+
+
 
 socket.emit('join', { username, room }, (error) => {
     if (error) {

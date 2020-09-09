@@ -79,6 +79,18 @@ io.on('connection', (socket) => {
       }
     })
 
+    socket.on('activeRooms', (room, callback) => {
+        room = addRoom(room)
+        // console.log(room);
+        // console.log(room.newRoom);
+        socket.join(room.newRoom)
+            io.to(room.newRoom).emit('addingRoom', {
+               room: room.newRoom,
+               rooms: getRoom(room.newRoom)
+            })
+           callback()
+    })
+
 })
 
 server.listen(port, () => {
