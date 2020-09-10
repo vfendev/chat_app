@@ -2,15 +2,12 @@ const rooms = []
 
 // Get active rooms
 
-const addRoom = ({ room }) => {
+const addRoom = (room) => {
 
     // Clean the data
         room = room.trim().toLowerCase()
-        const newRoom = { room }
+        const newRoom =  {room}
 
-      // Store rooms 
-     
-      
         //  Check for existing rooms
         const existingRoom = rooms.find((newRoom) => {
         return newRoom.room === room
@@ -23,6 +20,7 @@ const addRoom = ({ room }) => {
         }
     }
 
+    // Store rooms 
     rooms.push(newRoom)
     return { newRoom }
     
@@ -38,11 +36,17 @@ const removeRoom = (room) => {
 }
 
 // Get room
-const getRoom = ({room}) => {
+const getRoom = (room) => {
     room = room.trim().toLowerCase()
     return rooms.find((newRoom) => newRoom.room === room)
 }
 
+// console.log(addRoom('Tribe'));
+// console.log(addRoom('running'));
+// console.log(addRoom('test'));
+// console.log(rooms);
+// console.log('Printing active room');
+// console.log(getRoom('Running'));
 
 module.exports = {
     addRoom,
